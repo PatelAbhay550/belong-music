@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -13,7 +13,7 @@ import NotionPlayerBar from "../components/NotionPlayerBar";
 import Loading from "../components/Loading";
 import { useLikedSongs } from "../hooks/useLikedSongs";
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get('q');
@@ -396,5 +396,27 @@ export default function SearchPage() {
         />
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex">
+        <NotionSidebar />
+        <div className="flex-1 flex flex-col md:ml-0 ml-0">
+          <NotionHeader />
+          <main className="flex-1 overflow-y-auto">
+            <div className="max-w-6xl mx-auto px-6 py-8">
+              <div className="flex justify-center py-20">
+                <Loading />
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }
