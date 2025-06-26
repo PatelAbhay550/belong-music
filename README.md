@@ -1,6 +1,6 @@
-# 🎵 Belong Music
+# 🎵 Belong Music - Progressive Web App
 
-A modern, Notion-style music streaming application built with Next.js and JioSaavn API integration. Experience your favorite music with a clean, intuitive interface inspired by Notion's design principles.
+A modern, Notion-style music streaming Progressive Web App built with Next.js and JioSaavn API integration. Experience your favorite music with a clean, intuitive interface that works offline and can be installed on any device.
 
 ## ✨ Features
 
@@ -11,6 +11,16 @@ A modern, Notion-style music streaming application built with Next.js and JioSaa
 - **Recently Played**: Track and continue listening to recent songs
 - **Download Support**: Download your favorite tracks
 - **Audio Player**: Full-featured player with play, pause, and controls
+
+### 📱 Progressive Web App Features
+- **🔧 Installable**: Install on desktop and mobile devices
+- **📱 App-like Experience**: Standalone app when installed
+- **🌐 Offline Support**: Basic functionality works without internet
+- **🔄 Background Sync**: Sync data when connection is restored
+- **🎵 Audio Caching**: Cache songs for offline listening
+- **🚀 Fast Loading**: Service worker caching for instant load times
+- **📊 Install Prompts**: Smart installation suggestions
+- **🔔 PWA Status**: Real-time online/offline status indicator
 
 ### 🎨 User Interface
 - **Notion-Style Design**: Clean, minimal interface inspired by Notion

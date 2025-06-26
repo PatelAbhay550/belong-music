@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useAudio } from "../contexts/AudioContext";
+import { useRecentlyPlayed } from "../hooks/useRecentlyPlayed";
 
 export default function NotionMusicCard({ item, type, index, onPlay, isPlaying, onLike, isLiked, showPlayedAt, playedAt }) {
+  const { playSong, currentSong, isPlaying: globalIsPlaying } = useAudio();
+  const { addToRecentlyPlayed } = useRecentlyPlayed();
   const getImageUrl = () => {
     if (item.image && Array.isArray(item.image)) {
       return item.image[2]?.url || item.image[1]?.url || item.image[0]?.url;
@@ -69,11 +73,16 @@ export default function NotionMusicCard({ item, type, index, onPlay, isPlaying, 
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  if (onPlay) onPlay(item, index);
+                  if (type === 'song') {
+                    playSong(item);
+                    addToRecentlyPlayed(item);
+                  } else if (onPlay) {
+                    onPlay(item, index);
+                  }
                 }}
                 className="opacity-0 group-hover:opacity-100 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full p-3 transition-all duration-200 transform scale-90 group-hover:scale-100"
               >
-                {isPlaying ? (
+                {(currentSong?.id === item.id && globalIsPlaying) ? (
                   <svg className="w-6 h-6 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>

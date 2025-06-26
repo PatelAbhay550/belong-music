@@ -1,5 +1,38 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // PWA Configuration
+  experimental: {
+    swcPlugins: []
+  },
+  
+  // Headers for PWA support
+  async headers() {
+    return [
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json',
+          },
+        ],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+        ],
+      },
+    ];
+  },
+
   images: {
     remotePatterns: [
       {

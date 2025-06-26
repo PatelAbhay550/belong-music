@@ -10,15 +10,16 @@ import NotionSidebar from "./components/NotionSidebar";
 import NotionSection from "./components/NotionSection";
 import NotionMusicCard from "./components/NotionMusicCard";
 import NotionQuickAccessCard from "./components/NotionQuickAccessCard";
-import NotionPlayerBar from "./components/NotionPlayerBar";
 import LanguageSelector from "./components/LanguageSelector";
 import StructuredData from "./components/StructuredData";
 import { useLikedSongs } from "./hooks/useLikedSongs";
 import { useRecentlyPlayed } from "./hooks/useRecentlyPlayed";
+import { useAudio } from "./contexts/AudioContext";
 
 export default function Home() {
   const { isLiked, toggleLike, likedSongs } = useLikedSongs();
   const { addToRecentlyPlayed, recentlyPlayed } = useRecentlyPlayed();
+  const { playSong, currentSong: globalCurrentSong, isPlaying: globalIsPlaying } = useAudio();
   const [songs, setSongs] = useState(null);
   const [trendingSongs, setTrendingSongs] = useState(null);
   const [trendingPlaylists, setTrendingPlaylists] = useState(null);
@@ -83,9 +84,10 @@ export default function Home() {
 
   // Play functionality
   const handlePlay = (song, index) => {
+    playSong(song);
+    addToRecentlyPlayed(song);
     setCurrentSong(song);
     setIsPlaying(true);
-    addToRecentlyPlayed(song);
   };  // Like functionality
   const handleLike = (song) => {
     const newLikeStatus = toggleLike(song);
@@ -276,7 +278,7 @@ export default function Home() {
                         type="song" 
                         index={index + 1}
                         onPlay={(songItem, songIndex) => handlePlay(songItem, index)}
-                        isPlaying={currentSong?.id === song.id && isPlaying}
+                        isPlaying={globalCurrentSong?.id === song.id && globalIsPlaying}
                         onLike={handleLike}
                         isLiked={isLiked(song.id)}
                       />
@@ -394,15 +396,6 @@ export default function Home() {
         </main>
       </div>
 
-      {/* Audio Player */}
-      {currentSong && isPlaying && (
-        <NotionPlayerBar 
-          song={currentSong}
-          isLiked={isLiked(currentSong.id)}
-          onLike={() => handleLike(currentSong)}
-          onDownload={() => {}}
-        />
-      )}
     </div>
   );
 }

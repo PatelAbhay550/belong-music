@@ -127,3 +127,32 @@ body {
     zoom: 1;
   }
 }
+
+/* Global player spacing */
+.main-content-with-player {
+  padding-bottom: 120px;
+}
+
+/* Ensure content doesn't hide behind player */
+body {
+  padding-bottom: 80px;
+}
+
+/* Audio player animations */
+.audio-player-enter {
+  transform: translateY(100%);
+}
+
+.audio-player-enter-active {
+  transform: translateY(0%);
+  transition: transform 0.3s ease-out;
+}
+
+.audio-player-exit {
+  transform: translateY(0%);
+}
+
+.audio-player-exit-active {
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in;
+}

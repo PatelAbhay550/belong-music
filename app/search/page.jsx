@@ -9,15 +9,18 @@ import NotionHeader from "../components/NotionHeader";
 import NotionSidebar from "../components/NotionSidebar";
 import NotionSection from "../components/NotionSection";
 import NotionMusicCard from "../components/NotionMusicCard";
-import NotionPlayerBar from "../components/NotionPlayerBar";
 import Loading from "../components/Loading";
 import { useLikedSongs } from "../hooks/useLikedSongs";
+import { useAudio } from "../contexts/AudioContext";
+import { useRecentlyPlayed } from "../hooks/useRecentlyPlayed";
 
 function SearchContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get('q');
   const { isLiked, toggleLike } = useLikedSongs();
+  const { playSong, currentSong: globalCurrentSong, isPlaying: globalIsPlaying } = useAudio();
+  const { addToRecentlyPlayed } = useRecentlyPlayed();
   
   const [searchResults, setSearchResults] = useState({
     songs: [],
@@ -91,6 +94,8 @@ function SearchContent() {
 
   // Play functionality
   const handlePlay = (song, index) => {
+    playSong(song);
+    addToRecentlyPlayed(song);
     setCurrentSong(song);
     setIsPlaying(true);
   };
@@ -150,7 +155,7 @@ function SearchContent() {
                   type="song" 
                   index={index + 1}
                   onPlay={(songItem, songIndex) => handlePlay(songItem, index)}
-                  isPlaying={currentSong?.id === song.id && isPlaying}
+                  isPlaying={globalCurrentSong?.id === song.id && globalIsPlaying}
                   onLike={handleLike}
                   isLiked={isLiked(song.id)}
                 />
@@ -227,7 +232,7 @@ function SearchContent() {
                         type="song" 
                         index={index + 1}
                         onPlay={(songItem, songIndex) => handlePlay(songItem, index)}
-                        isPlaying={currentSong?.id === song.id && isPlaying}
+                        isPlaying={globalCurrentSong?.id === song.id && globalIsPlaying}
                         onLike={handleLike}
                         isLiked={isLiked(song.id)}
                       />
@@ -386,15 +391,6 @@ function SearchContent() {
         </main>
       </div>
 
-      {/* Audio Player */}
-      {currentSong && isPlaying && (
-        <NotionPlayerBar 
-          song={currentSong}
-          isLiked={isLiked(currentSong.id)}
-          onLike={() => handleLike(currentSong)}
-          onDownload={() => {}}
-        />
-      )}
     </div>
   );
 }

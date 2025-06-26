@@ -1,4 +1,8 @@
 import "./globals.css";
+import { AudioProvider } from "./contexts/AudioContext";
+import GlobalPlayer from "./components/GlobalPlayer";
+import PWAInstaller from "./components/PWAInstaller";
+import PWAStatus from "./components/PWAStatus";
 
 
 
@@ -21,6 +25,23 @@ export const metadata = {
   alternates: {
     canonical: '/',
   },
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icons/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/icon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/icons/icon-152x152.png', sizes: '152x152', type: 'image/png' },
+      { url: '/icons/icon-180x180.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Belong Music',
+  },
   openGraph: {
     title: "Belong Music - Your Ultimate Music Streaming Experience",
     description: "Discover, stream, and enjoy millions of songs from your favorite artists.",
@@ -28,9 +49,9 @@ export const metadata = {
     siteName: 'Belong Music',
     images: [
       {
-        url: '/LOGO.svg',
-        width: 800,
-        height: 600,
+        url: '/icons/icon-512x512.png',
+        width: 512,
+        height: 512,
         alt: 'Belong Music Logo',
       },
     ],
@@ -42,7 +63,7 @@ export const metadata = {
     title: 'Belong Music - Your Ultimate Music Streaming Experience',
     description: 'Discover, stream, and enjoy millions of songs from your favorite artists.',
     creator: '@belongmusic',
-    images: ['/LOGO.svg'],
+    images: ['/icons/icon-512x512.png'],
   },
   robots: {
     index: true,
@@ -60,10 +81,25 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Belong Music" />
+        <meta name="msapplication-TileColor" content="#2563eb" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body
         className={`antialiased`}
       >
-        {children}
+        <AudioProvider>
+          {children}
+          <GlobalPlayer />
+          <PWAInstaller />
+          <PWAStatus />
+        </AudioProvider>
       </body>
     </html>
   );
