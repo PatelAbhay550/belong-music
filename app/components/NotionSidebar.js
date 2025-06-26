@@ -27,7 +27,7 @@ export default function NotionSidebar() {
     { icon: "📚", label: "Library", href: "/library" },
     { icon: "❤️", label: `Liked Songs (${likedSongs.length})`, href: "/liked" },
     { icon: "📋", label: "Playlists", href: "/playlists" },
-    { icon: "🎤", label: "Artists", href: "/artists" },
+    { icon: "🎤", label: "Artists", href: "/artist" },
     { icon: "💿", label: "Albums", href: "/albums" },
   ];
 
