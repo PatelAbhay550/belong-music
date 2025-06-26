@@ -380,7 +380,7 @@ const SongDetails = () => {
                     <div
                       key={index}
                       className="group bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-                      onClick={() => router.push(`/artists/${artist.id}`)}
+                      onClick={() => router.push(`/artist/${artist.id}`)}
                     >
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
